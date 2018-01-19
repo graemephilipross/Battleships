@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using BattleShips.Models.Coords;
 
 namespace BattleShips.Models.Ships
@@ -15,11 +16,24 @@ namespace BattleShips.Models.Ships
         {
             Size = size;
             Name = name;
+        }
 
-            for (var i = 0; i < Size - 1; i++)
+        public bool IsCoordHit(int x, int y)
+        {
+            return Coords.Any(coord => coord.X == x && coord.Y == y);
+        }
+
+        public bool ShipSunk()
+        {
+            return Coords.All(coord => coord.IsHit);
+        }
+
+        public void SetCoordHit(int x, int y)
+        {
+            var c = Coords.FirstOrDefault(coord => coord.X == x && coord.Y == y);
+            if (c != null)
             {
-                var coord = coordFactory.Create();
-                Coords.Add(coord);
+                c.IsHit = true;
             }
         }
     }
