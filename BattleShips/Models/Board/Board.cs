@@ -6,7 +6,8 @@ namespace BattleShips.Models.Board
 {
     class Board : IBoard
     {
-        public int[,] Battlefield { private set; get; }
+        public int Width { private set; get; }
+        public int Height { private set; get; }
 
         public Board(int width = 10, int height = 10)
         {
@@ -15,7 +16,8 @@ namespace BattleShips.Models.Board
                 throw new ArgumentException($"Invalid game board dimesnions: {width} x {height}");
             }
 
-            Battlefield = new int[width, height];
+            Width = width;
+            Height = height;
         }
     }
 }

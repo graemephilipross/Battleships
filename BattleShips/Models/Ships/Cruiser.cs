@@ -7,8 +7,8 @@ namespace BattleShips.Models.Ships
 {
     class Cruiser : AbstractShip
     {
-        public Cruiser(ICreateCoords coordFactory, int size = 4, string name = "Cruiser")
-            : base(coordFactory, size, name)
+        public Cruiser(List<ICoord> coords, int size = 4, string name = "Cruiser")
+            : base(coords, size, name)
         {
         }
     }

@@ -6,6 +6,7 @@ namespace BattleShips.Models.Board
 {
     interface IBoard
     {
-        int[,] Battlefield { get; }
+        int Width { get; }
+        int Height { get; }
     }
 }

@@ -12,13 +12,14 @@ namespace BattleShips.Models.Ships
         public string  Name { private set; get; }
         public List<ICoord> Coords { set; get; }
 
-        public AbstractShip(ICreateCoords coordFactory, int size, string name)
+        public AbstractShip(List<ICoord> coords, int size, string name)
         {
             Size = size;
             Name = name;
+            Coords = coords;
         }
 
-        public bool IsCoordHit(int x, int y)
+        public bool HasCoord(int x, int y)
         {
             return Coords.Any(coord => coord.X == x && coord.Y == y);
         }
