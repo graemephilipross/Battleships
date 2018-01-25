@@ -10,6 +10,6 @@ namespace BattleShips.Game
 {
     interface IGameManager
     {
-        void PlaceShips(IBoard battlefield, ShipConfig shipConfig, ICreateCoords coordFactory);
+        void PlaceShips(IBoard battlefield, ShipConfig shipConfig);
     }
 }

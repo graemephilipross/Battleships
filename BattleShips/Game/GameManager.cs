@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using BattleShips.Models.Board;
 using BattleShips.Models.Ships;
@@ -19,25 +18,39 @@ namespace BattleShips.Game
             Down
         }
 
-        private List<IShip> _ships = new List<IShip>();
+        private static IDictionary<ShipType, Func<List<ICoord>, IShip>> ShipBuilder = new Dictionary<ShipType, Func<List<ICoord>, IShip>>();
 
-        public void PlaceShips(IBoard battlefield, ShipConfig shipConfig, ICreateCoords coordFactory)
+        public List<IShip> _ships = new List<IShip>();
+
+        public int TryShipPlacementCount { set; private get; } = 10;
+
+        static GameManager()
         {
-            foreach(var item in shipConfig.Ships)
+            ShipBuilder.Add(ShipType.Destoryer, c => new Destroyer(c));
+            ShipBuilder.Add(ShipType.Cruiser, c => new Cruiser(c));
+        }
+
+        public void PlaceShips(IBoard battlefield, ShipConfig shipConfig)
+        {
+            foreach (var item in shipConfig.Ships)
             {
-                for (var i = 0; i < item.Value.Quantity - 1; i++)
+                for (var i = 0; i <= item.Value.Quantity - 1; i++)
                 {
-                    var coords = CreateShipCoords(battlefield, item.Value);
-                    _ships.Add((IShip)Activator.CreateInstance(Type.GetType(item.Key.ToString())));
+                    var coords = CreateShipCoords(battlefield, item.Value, TryShipPlacementCount);
+                    _ships.Add(ShipBuilder[item.Key](coords));
                 }
             }
         }
 
-        private List<ICoord> CreateShipCoords(IBoard battlefield, ShipInfo shipInfo)
+        private List<ICoord> CreateShipCoords(IBoard battlefield, ShipInfo shipInfo, int count)
         {
-            // need to prevernt infitne recursion
+            // prevent infinite recursion
+            if (--count == 0)
+            {
+                throw new Exception($"Unable to create game board. Cannot place ship of length ${shipInfo.Size} coords");
+            }
 
-            Random r = new Random();
+            var r = new Random();
             var availableDirections = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
             var placedCoords = new List<ICoord>();
 
@@ -46,52 +59,73 @@ namespace BattleShips.Game
 
             if (ShipHasCoord(x, y))
             {
-                return CreateShipCoords(battlefield, shipInfo);
+                return CreateShipCoords(battlefield, shipInfo, count);
             }
 
             placedCoords.Add(new Coord(x, y));
 
-            var direction = availableDirections[r.Next(availableDirections.Count)];
-
-            for (var i = 0; i < shipInfo.Size - 2; i++)
+            Action tryCreateShip = null;
+            tryCreateShip = () =>
             {
-                var canPlace = false;
-                switch (direction)
+                var direction = availableDirections[r.Next(availableDirections.Count)];
+                for (var i = 0; i <= shipInfo.Size - 2; i++)
                 {
-                    case Direction.Left:
-                        canPlace = ShipHasCoord(--x, y);
+                    var canPlace = false;
+                    switch (direction)
+                    {
+                        case Direction.Left:
+                            canPlace = ValidCoord(--x, y, battlefield);
+                            break;
+                        case Direction.Right:
+                            canPlace = ValidCoord(++x, y, battlefield);
+                            break;
+                        case Direction.Up:
+                            canPlace = ValidCoord(x, --y, battlefield);
+                            break;
+                        case Direction.Down:
+                            canPlace = ValidCoord(x, ++y, battlefield);
+                            break;
+                    }
+
+                    if (canPlace)
+                    {
+                        placedCoords.Add(new Coord(x, y));
+                    }
+                    else
+                    {
+                        availableDirections.Remove(direction);
+
+                        if (!availableDirections.Any())
+                        {
+                            CreateShipCoords(battlefield, shipInfo, count);
+                            break;
+                        }
+
+                        placedCoords.RemoveRange(1, placedCoords.Count - 1);
+                        x = placedCoords.First().X;
+                        y = placedCoords.First().Y;
+                        tryCreateShip();
                         break;
-                    case Direction.Right:
-                        canPlace = ShipHasCoord(++x, y);
-                        break;
-                    case Direction.Up:
-                        canPlace = ShipHasCoord(x, --y);
-                        break;
-                    case Direction.Down:
-                        canPlace = ShipHasCoord(x, ++y);
-                        break;
+                    }
                 }
-
-                if (canPlace)
-                {
-                    placedCoords.Add(new Coord(x, y));
-                    continue;
-                }
-
-                // if not - 
-                // place coord in opposite direction in same plane
-
-                // if not - remove this as opposite direction
-
-                // remove all coords aside first and repeat with remaining directions - no directions left, go back to step 1
-            }
-
+            };
+            tryCreateShip();
             return placedCoords;
         }
 
         private bool ShipHasCoord(int x, int y)
         {
             return _ships.Any(ship => ship.HasCoord(x, y));
+        }
+
+        private bool WithinGameBoard(int x, int y, IBoard battlefield)
+        {
+            return (x >= 0 && x <= battlefield.Width) && (y >= 0 && y <= battlefield.Height);
+        }
+
+        private bool ValidCoord(int x, int y, IBoard battlefield)
+        {
+            return !ShipHasCoord(x, y) && WithinGameBoard(x, y, battlefield);
         }
     }
 }

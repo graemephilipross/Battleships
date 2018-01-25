@@ -8,7 +8,7 @@ namespace BattleShips.Models.ShipConfig
     public enum ShipType
     {
         Destoryer,
-        Cruiser,
+        Cruiser
     }
 
     struct ShipConfig
