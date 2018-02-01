@@ -12,6 +12,7 @@ namespace BattleShips.Models.Ships
         List<ICoord> Coords { get; }
 
         bool HasCoord(int x, int y);
+        int IntactCoords();
         bool ShipSunk();
         void SetCoordHit(int x, int y);
     }

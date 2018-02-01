@@ -29,6 +29,11 @@ namespace BattleShips.Models.Ships
             return Coords.All(coord => coord.IsHit);
         }
 
+        public int IntactCoords()
+        {
+            return Coords.Count(coord => !coord.IsHit);
+        }
+
         public void SetCoordHit(int x, int y)
         {
             var c = Coords.FirstOrDefault(coord => coord.X == x && coord.Y == y);
