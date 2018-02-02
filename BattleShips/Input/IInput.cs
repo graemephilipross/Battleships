@@ -6,6 +6,7 @@ namespace BattleShips.Input
 {
     interface IInput
     {
-        string ReadUserInput();
+        int[] ReadUserInGameInput();
+        bool ReadUserTryAgainInput();
     }
 }

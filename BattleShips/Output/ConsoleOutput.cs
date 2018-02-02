@@ -8,6 +8,11 @@ namespace BattleShips.Output
 {
     class ConsoleOutput : IOutput
     {
+        public void GameStartMessage()
+        {
+            Console.WriteLine($"Welcome to Graeme's Battleships. Good Luck!");
+        }
+
         public void PlayerTurnMessage(IBoard battlefield)
         {
             Console.WriteLine($"Please enter a coordinate between 0 - {battlefield.Width - 1}, 0 - {battlefield.Height - 1}");
@@ -31,6 +36,11 @@ namespace BattleShips.Output
         public void ErrorMessage(ErrorOutput err)
         {
             Console.WriteLine($"{err.Message}");
+        }
+
+        public void PlayAgainMessage()
+        {
+            Console.WriteLine("Play again? Y / N");
         }
     }
 }

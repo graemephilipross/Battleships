@@ -8,8 +8,11 @@ using BattleShips.Models.ShipConfig;
 
 namespace BattleShips.Game
 {
-    interface IGameManager
+    interface IGameBuilder
     {
-        void PlaceShips(IBoard battlefield, ShipConfig shipConfig);
+        List<IShip> Ships { get; }
+        void PlaceShips(IBoard battlefield, ShipSetup shipConfig);
+        IShip ShipHasCoord(int x, int y);
+        bool AllShipsSunk();
     }
 }

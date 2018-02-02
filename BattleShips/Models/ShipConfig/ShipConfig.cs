@@ -11,7 +11,7 @@ namespace BattleShips.Models.ShipConfig
         Cruiser
     }
 
-    struct ShipConfig
+    struct ShipSetup
     {
         public IDictionary<ShipType, ShipInfo> Ships;
     };

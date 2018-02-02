@@ -25,7 +25,7 @@ namespace BattleShips
                 Quantity = 2
             };
 
-            var shipConfig = new ShipConfig();
+            var shipConfig = new ShipSetup();
             shipConfig.Ships = new Dictionary<ShipType, ShipInfo>()
             {
                 { ShipType.Destoryer, destroyerInfo },
@@ -34,8 +34,8 @@ namespace BattleShips
 
             var board = new Board(5, 5);
 
-            var gameManager = new GameManager();
-            gameManager.PlaceShips(board, shipConfig);
+            var gameBuilder = new GameBuilder();
+            gameBuilder.PlaceShips(board, shipConfig);
         }
     }
 }
