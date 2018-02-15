@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using BattleShips.Models.Board;
-using BattleShips.Models.Ships;
-using BattleShips.Models.Coords;
-using BattleShips.Models.ShipConfig;
+using Autofac;
+using BattleShips.Container;
 using BattleShips.Game;
 
 namespace BattleShips
@@ -13,29 +11,10 @@ namespace BattleShips
     {
         static void Main(string[] args)
         {
-            var destroyerInfo = new ShipInfo()
+            using (var container = ContinerSetup.CreateContainer().Build())
             {
-                Size = 4,
-                Quantity = 2
-            };
-
-            var cruiserInfo = new ShipInfo()
-            {
-                Size = 3,
-                Quantity = 2
-            };
-
-            var shipConfig = new ShipSetup();
-            shipConfig.Ships = new Dictionary<ShipType, ShipInfo>()
-            {
-                { ShipType.Destoryer, destroyerInfo },
-                { ShipType.Cruiser, cruiserInfo }
-            };
-
-            var board = new Board(5, 5);
-
-            var gameBuilder = new GameBuilder();
-            gameBuilder.PlaceShips(board, shipConfig);
+                container.Resolve<GameManager>().GameDriver();
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ namespace BattleShips.Models.Board
         public int Width { private set; get; }
         public int Height { private set; get; }
 
-        public Board(int width = 10, int height = 10)
+        public Board(int width = 2, int height = 2)
         {
             if (width == 0 || height == 0)
             {

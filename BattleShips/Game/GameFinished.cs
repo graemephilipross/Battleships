@@ -7,18 +7,18 @@ using BattleShips.Input;
 
 namespace BattleShips.Game
 {
-    class GameFinishedAdapter : IProcessState
+    class GameFinished : IProcessState
     {
         private readonly IOutput _output;
         private readonly IInput _input;
 
-        public GameFinishedAdapter(IOutput output, IInput input)
+        public GameFinished(IOutput output, IInput input)
         {
             _output = output;
             _input = input;
         }
 
-        public GameState ProcessState(GameState state)
+        public GameState ProcessState()
         {
             _output.PlayAgainMessage();
             var playAgain = _input.ReadUserTryAgainInput();

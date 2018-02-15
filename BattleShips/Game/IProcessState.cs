@@ -5,8 +5,8 @@ using BattleShips.Models.GameState;
 
 namespace BattleShips.Game
 {
-    interface IGameInPlay
+    interface IProcessState
     {
-        GameState InPlayFacade(GameState state);
+        GameState ProcessState();
     }
 }

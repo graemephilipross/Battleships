@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BattleShips.Game;
 
 namespace BattleShips.Models.GameState
 {
@@ -12,8 +13,18 @@ namespace BattleShips.Models.GameState
         Quit
     }
 
-    struct GameStateManager
+    class GameStateManager
     {
-        public IDictionary<GameState, IProcessState> StateManager;
-    };
+        Func<GameState, IProcessState> _lookup;
+
+        public GameStateManager(Func<GameState, IProcessState> lookup)
+        {
+            _lookup = lookup;
+        }
+
+        public GameState Process(GameState state)
+        {
+            return _lookup(state)?.ProcessState() ?? GameState.Quit;
+        }
+    }
 }

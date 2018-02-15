@@ -27,15 +27,7 @@ namespace BattleShips.Game
                 {
                     return;
                 }
-
-                if (_gsm.StateManager.ContainsKey(_state))
-                {
-                    _state = _gsm.StateManager[_state].ProcessState(_state);
-                }
-                else
-                {
-                    _state = GameState.Quit;
-                }
+                _state = _gsm.Process(_state);
             }
             catch(Exception e)
             {

@@ -3,45 +3,47 @@ using System.Collections.Generic;
 using System.Text;
 using BattleShips.Input;
 using BattleShips.Output;
-using BattleShips.Models.Board;
+using BattleShips.Models.Player;
 using BattleShips.Models.GameState;
 
 namespace BattleShips.Game
 {
-    class GameInPlay : IGameInPlay
+    class GameInPlay : IProcessState
     {
         private readonly IInput _input;
         private readonly IOutput _output;
-        private readonly IBoard _battlefield;
-        private readonly IGameBuilder _gameBuilder;
+        private readonly IPlayer _player;
 
-        public GameInPlay(IInput input, IOutput output, IBoard battlefield, IGameBuilder gameBuilder)
+        public GameInPlay(IInput input, IOutput output, IPlayer player)
         {
             _input = input;
             _output = output;
-            _battlefield = battlefield;
-            _gameBuilder = gameBuilder;
+            _player = player;
         }
 
-        public GameState InPlayFacade(GameState state)
+        public GameState ProcessState()
         {
-            _output.PlayerTurnMessage(_battlefield);
+            return InPlayFacade();
+        }
+
+        private GameState InPlayFacade()
+        {
+            _output.PlayerTurnMessage(_player.Battlefield);
             var coords = _input.ReadUserInGameInput();
-            var ship = _gameBuilder.ShipHasCoord(coords[0], coords[1]);
+            var ship = _player.ShipHasCoord(coords[0], coords[1]);
             if (ship == null)
             {
                  _output.HitMissMessage();
-                return state;
+                return GameState.InPlay;
             }
             ship.SetCoordHit(coords[0], coords[1]);
-            if (_gameBuilder.AllShipsSunk())
+            if (_player.AllShipsSunk())
             {
                 _output.GameCompleteMessage();
-                state = GameState.Complete;
-                return state;
+                return GameState.Complete;
             }
             _output.HitSuccessMessage(ship);
-            return state;
+            return GameState.InPlay;
         }
     }
 }
