@@ -7,9 +7,9 @@ namespace BattleShips.Models.Ships
     {
         public int Size { private set; get; }
         public string  Name { private set; get; }
-        public List<ICoord> Coords { set; get; }
+        public List<ICell> Coords { set; get; }
 
-        public AbstractShip(List<ICoord> coords, int size, string name)
+        public AbstractShip(List<ICell> coords, int size, string name)
         {
             Size = size;
             Name = name;

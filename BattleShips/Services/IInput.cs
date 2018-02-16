@@ -4,7 +4,7 @@ namespace BattleShips.Services
 {
     interface IInput
     {
-        CoordDTO ReadUserInGameInput();
+        Coord ReadUserInGameInput();
         bool ReadUserTryAgainInput();
     }
 }

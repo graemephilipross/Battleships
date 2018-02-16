@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using BattleShips.Container;
+using BattleShips.App_Start;
 using BattleShips.Services;
 
 namespace BattleShips
@@ -8,7 +8,7 @@ namespace BattleShips
     {
         static void Main(string[] args)
         {
-            var container = ContinerSetup.CreateContainer().Build();
+            var container = Container.CreateContainer().Build();
             using (var session = container.BeginLifetimeScope())
             {
                 session.Resolve<GameService>().Play();

@@ -6,9 +6,9 @@ using BattleShips.Models;
 using BattleShips.Services;
 using BattleShips.Game;
 
-namespace BattleShips.Container
+namespace BattleShips.App_Start
 {
-    static class ContinerSetup
+    static class Container
     {
         private static ShipSetup CreateShipConfig()
         {

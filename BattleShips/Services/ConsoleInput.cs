@@ -16,14 +16,14 @@ namespace BattleShips.Services
             tryAgainRegex = new Regex(@"^[YyNn]$");
         }
 
-        public CoordDTO ReadUserInGameInput()
+        public Coord ReadUserInGameInput()
         {
             var input = Console.ReadLine();
             var match = inGameRegex.Match(input);
             if (match.Success)
             {
                 var coords = input.Split(',').Select(int.Parse).ToArray();
-                return new CoordDTO(coords[0], coords[1]);
+                return new Coord(coords[0], coords[1]);
             }
             throw new ArgumentException("Invalid coordinate");
         }

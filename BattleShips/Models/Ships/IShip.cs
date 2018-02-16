@@ -6,7 +6,7 @@ namespace BattleShips.Models.Ships
     {
         int Size { get; }
         string Name { get; }
-        List<ICoord> Coords { get; }
+        List<ICell> Coords { get; }
 
         bool HasCoord(int x, int y);
         int IntactCoords();

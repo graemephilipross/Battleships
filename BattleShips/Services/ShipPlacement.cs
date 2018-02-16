@@ -16,13 +16,13 @@ namespace BattleShips.Services
             Down
         }
 
-        private readonly static IDictionary<ShipType, Func<List<ICoord>, IShip>> ShipBuilder;
+        private readonly static IDictionary<ShipType, Func<List<ICell>, IShip>> ShipBuilder;
 
         public int TryShipPlacementCount { set; private get; } = 20;
 
         static ShipPlacement()
         {
-            ShipBuilder = new Dictionary<ShipType, Func<List<ICoord>, IShip>>();
+            ShipBuilder = new Dictionary<ShipType, Func<List<ICell>, IShip>>();
             ShipBuilder.Add(ShipType.Destoryer, c => new Destroyer(c));
             ShipBuilder.Add(ShipType.Cruiser, c => new Cruiser(c));
         }
@@ -43,11 +43,11 @@ namespace BattleShips.Services
             return ships;
         }
 
-        private IEnumerable<ICoord> CreateShipCoords(List<IShip> ships, IBoard battlefield, ShipInfo shipInfo)
+        private IEnumerable<ICell> CreateShipCoords(List<IShip> ships, IBoard battlefield, ShipInfo shipInfo)
         {
             for (var i = 0; i <= TryShipPlacementCount - 1; i++)
             {
-                var result = TryPlaceCoords(new List<ICoord>(), ships, battlefield, shipInfo);
+                var result = TryPlaceCoords(new List<ICell>(), ships, battlefield, shipInfo);
                 if (result.Count() == shipInfo.Size)
                 {
                     return result;
@@ -56,7 +56,7 @@ namespace BattleShips.Services
             throw new Exception($"Unable to create game board. Cannot place ship of length ${shipInfo.Size} coords");
         }
 
-        private IEnumerable<ICoord> TryPlaceCoords(List<ICoord> placedCoords, List<IShip> ships, IBoard battlefield, ShipInfo shipInfo)
+        private IEnumerable<ICell> TryPlaceCoords(List<ICell> placedCoords, List<IShip> ships, IBoard battlefield, ShipInfo shipInfo)
         {
             var r = new Random();
             var availableDirections = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
@@ -66,14 +66,14 @@ namespace BattleShips.Services
 
             if (UsedCoord(x, y, ships))
             {
-                return Enumerable.Empty<ICoord>();
+                return Enumerable.Empty<ICell>();
             }
 
-            placedCoords.Add(new Coord(x, y));
+            placedCoords.Add(new Cell(x, y));
 
             var initialDirection = GetRandomDirection(r, availableDirections);
 
-            Func<Direction, IEnumerable<ICoord>> tryCreateShip = null;
+            Func<Direction, IEnumerable<ICell>> tryCreateShip = null;
             tryCreateShip = (direction) =>
             {
                 for (var i = placedCoords.Count; i <= shipInfo.Size - 1; i++)
@@ -97,7 +97,7 @@ namespace BattleShips.Services
 
                     if (canPlace)
                     {
-                        placedCoords.Add(new Coord(x, y));
+                        placedCoords.Add(new Cell(x, y));
                     }
                     else
                     {
@@ -105,7 +105,7 @@ namespace BattleShips.Services
 
                         if (!availableDirections.Any())
                         {
-                            return Enumerable.Empty<ICoord>();
+                            return Enumerable.Empty<ICell>();
                         }
 
                         var oppositeDirection = GetOppositeDirection(direction);
