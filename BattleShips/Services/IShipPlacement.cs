@@ -6,6 +6,6 @@ namespace BattleShips.Services
 {
     interface IShipPlacement
     {
-        List<IShip> PlaceShips(IBoard battlefield, ShipSetup shipConfig);
+        List<IShip> PlaceShips(int width, int height, ShipSetup shipConfig);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BattleShips.Models;
 using BattleShips.Models.Ships;
 using BattleShips.Services;
 
@@ -8,32 +7,26 @@ namespace BattleShips.Models
 {
     class Player: IPlayer
     {
-        public List<IShip> Ships { get; private set; } = new List<IShip>();
         public IBoard Battlefield { get; private set; }
 
-        private readonly ShipSetup _shipConfig;
-        private readonly IShipPlacement _shipPlacer;
-
-        public Player(IShipPlacement shipPlacer, IBoard battlefield, ShipSetup shipConfig)
+        public Player(IBoard battlefield)
         {
             Battlefield = battlefield;
-            _shipConfig = shipConfig;
-            _shipPlacer = shipPlacer;
         }
 
-        public void PlaceShips()
+        public void SetUp()
         {
-            Ships = _shipPlacer.PlaceShips(Battlefield, _shipConfig);
+            Battlefield.PlaceShips();
         }
 
-        public IShip ShipHasCoord(int x, int y)
+        public IShip Attack(int x, int y)
         {
-            return Ships.FirstOrDefault(s => s.HasCoord(x, y));
+            return Battlefield.ShipHasCoord(x, y);
         }
 
-        public bool AllShipsSunk()
+        public bool HasWon()
         {
-            return Ships.All(s => s.ShipSunk());
+            return Battlefield.AllShipsSunk();
         }
     }
 }

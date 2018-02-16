@@ -16,7 +16,7 @@ namespace BattleShips.Game
 
         public GameState ProcessState()
         {
-            _player.PlaceShips();
+            _player.SetUp();
             _output.GameStartMessage();
             return GameState.InPlay;
         }

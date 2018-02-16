@@ -25,14 +25,14 @@ namespace BattleShips.Game
         {
             _output.PlayerTurnMessage(_player.Battlefield);
             var coords = _input.ReadUserInGameInput();
-            var ship = _player.ShipHasCoord(coords.X, coords.Y);
+            var ship = _player.Attack(coords.X, coords.Y);
             if (ship == null)
             {
                  _output.HitMissMessage();
                 return GameState.InPlay;
             }
             ship.SetCoordHit(coords.X, coords.Y);
-            if (_player.AllShipsSunk())
+            if (_player.HasWon())
             {
                 _output.GameCompleteMessage();
                 return GameState.Complete;

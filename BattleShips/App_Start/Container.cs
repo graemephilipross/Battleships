@@ -39,12 +39,12 @@ namespace BattleShips.App_Start
             var builder = new ContainerBuilder();
             var shipConfig = CreateShipConfig();
 
-            builder.RegisterType<ConsoleInput>().As<IInput>();
-            builder.RegisterType<ConsoleOutput>().As<IOutput>();
+            builder.RegisterType<ConsoleInput>().As<IInput>().InstancePerLifetimeScope(); ;
+            builder.RegisterType<ConsoleOutput>().As<IOutput>().InstancePerLifetimeScope(); ;
 
-            builder.RegisterType<Board>().As<IBoard>();
-            builder.RegisterType<ShipPlacement>().As<IShipPlacement>();
-            builder.Register(c => new Player(c.Resolve<IShipPlacement>(), c.Resolve<IBoard>(), shipConfig)).As<IPlayer>().InstancePerLifetimeScope();
+            builder.Register(c => new Board(c.Resolve<IShipPlacement>(), shipConfig)).As<IBoard>().InstancePerLifetimeScope(); ;
+            builder.RegisterType<ShipPlacement>().As<IShipPlacement>().InstancePerLifetimeScope(); ;
+            builder.RegisterType<Player>().As<IPlayer>().InstancePerLifetimeScope().InstancePerLifetimeScope(); ;
 
             builder.RegisterType<Start>().Keyed<IProcessState>(GameState.Setup).InstancePerLifetimeScope();
             builder.RegisterType<InPlay>().Keyed<IProcessState>(GameState.InPlay).InstancePerLifetimeScope();
@@ -56,7 +56,7 @@ namespace BattleShips.App_Start
                 return state => context.ResolveKeyed<IProcessState>(state);
             });
 
-            builder.RegisterType<GameService>();
+            builder.RegisterType<GameService>().InstancePerLifetimeScope();
 
             return builder;
         }

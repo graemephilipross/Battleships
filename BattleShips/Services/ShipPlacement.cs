@@ -27,7 +27,7 @@ namespace BattleShips.Services
             ShipBuilder.Add(ShipType.Cruiser, c => new Cruiser(c));
         }
 
-        public List<IShip> PlaceShips(IBoard battlefield, ShipSetup shipConfig)
+        public List<IShip> PlaceShips(int width, int height, ShipSetup shipConfig)
         {
             var ships = new List<IShip>();
 
@@ -35,7 +35,7 @@ namespace BattleShips.Services
             {
                 for (var i = 0; i <= item.Value.Quantity - 1; i++)
                 {
-                    var coords = CreateShipCoords(ships, battlefield, item.Value).ToList();
+                    var coords = CreateShipCoords(ships, width, height, item.Value).ToList();
                     ships.Add(ShipBuilder[item.Key](coords));
                 }
             }
@@ -43,11 +43,11 @@ namespace BattleShips.Services
             return ships;
         }
 
-        private IEnumerable<ICell> CreateShipCoords(List<IShip> ships, IBoard battlefield, ShipInfo shipInfo)
+        private IEnumerable<ICell> CreateShipCoords(List<IShip> ships, int width, int height, ShipInfo shipInfo)
         {
             for (var i = 0; i <= TryShipPlacementCount - 1; i++)
             {
-                var result = TryPlaceCoords(new List<ICell>(), ships, battlefield, shipInfo);
+                var result = TryPlaceCoords(new List<ICell>(), ships, width, height, shipInfo);
                 if (result.Count() == shipInfo.Size)
                 {
                     return result;
@@ -56,13 +56,13 @@ namespace BattleShips.Services
             throw new Exception($"Unable to create game board. Cannot place ship of length ${shipInfo.Size} coords");
         }
 
-        private IEnumerable<ICell> TryPlaceCoords(List<ICell> placedCoords, List<IShip> ships, IBoard battlefield, ShipInfo shipInfo)
+        private IEnumerable<ICell> TryPlaceCoords(List<ICell> placedCoords, List<IShip> ships, int width, int height, ShipInfo shipInfo)
         {
             var r = new Random();
             var availableDirections = Enum.GetValues(typeof(Direction)).Cast<Direction>().ToList();
 
-            var x = r.Next(0, battlefield.Width - 1);
-            var y = r.Next(0, battlefield.Height - 1);
+            var x = r.Next(0, width - 1);
+            var y = r.Next(0, height - 1);
 
             if (UsedCoord(x, y, ships))
             {
@@ -82,16 +82,16 @@ namespace BattleShips.Services
                     switch (direction)
                     {
                         case Direction.Left:
-                            canPlace = ValidCoord(--x, y, battlefield, ships);
+                            canPlace = ValidCoord(--x, y, width, height, ships);
                             break;
                         case Direction.Right:
-                            canPlace = ValidCoord(++x, y, battlefield, ships);
+                            canPlace = ValidCoord(++x, y, width, height, ships);
                             break;
                         case Direction.Up:
-                            canPlace = ValidCoord(x, --y, battlefield, ships);
+                            canPlace = ValidCoord(x, --y, width, height, ships);
                             break;
                         case Direction.Down:
-                            canPlace = ValidCoord(x, ++y, battlefield, ships);
+                            canPlace = ValidCoord(x, ++y, width, height, ships);
                             break;
                     }
 
@@ -159,14 +159,14 @@ namespace BattleShips.Services
             return ships.Any(ship => ship.HasCoord(x, y));
         }
 
-        private bool WithinGameBoard(int x, int y, IBoard battlefield)
+        private bool WithinGameBoard(int x, int y, int width, int height)
         {
-            return (x >= 0 && x <= battlefield.Width - 1) && (y >= 0 && y <= battlefield.Height - 1);
+            return (x >= 0 && x <= width - 1) && (y >= 0 && y <= height - 1);
         }
 
-        private bool ValidCoord(int x, int y, IBoard battlefield, List<IShip> ships)
+        private bool ValidCoord(int x, int y, int width, int height, List<IShip> ships)
         {
-            return !UsedCoord(x, y, ships) && WithinGameBoard(x, y, battlefield);
+            return !UsedCoord(x, y, ships) && WithinGameBoard(x, y, width, height);
         }
     }
 }

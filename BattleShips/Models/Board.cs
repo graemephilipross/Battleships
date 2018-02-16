@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+using BattleShips.Models.Ships;
+using BattleShips.Services;
 
 namespace BattleShips.Models
 {
@@ -6,8 +10,12 @@ namespace BattleShips.Models
     {
         public int Width { private set; get; }
         public int Height { private set; get; }
+        public List<IShip> Ships { get; private set; } = new List<IShip>();
 
-        public Board(int width = 5, int height = 5)
+        private readonly ShipSetup _shipConfig;
+        private readonly IShipPlacement _shipPlacer;
+
+        public Board(IShipPlacement shipPlacer, ShipSetup shipConfig, int width = 5, int height = 5)
         {
             if (width == 0 || height == 0)
             {
@@ -16,6 +24,24 @@ namespace BattleShips.Models
 
             Width = width;
             Height = height;
+
+            _shipConfig = shipConfig;
+            _shipPlacer = shipPlacer;
+        }
+
+        public void PlaceShips()
+        {
+            Ships = _shipPlacer.PlaceShips(Width, Height, _shipConfig);
+        }
+
+        public IShip ShipHasCoord(int x, int y)
+        {
+            return Ships.FirstOrDefault(s => s.HasCoord(x, y));
+        }
+
+        public bool AllShipsSunk()
+        {
+            return Ships.All(s => s.ShipSunk());
         }
     }
 }
