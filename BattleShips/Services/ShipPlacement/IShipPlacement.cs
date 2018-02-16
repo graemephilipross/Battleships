@@ -3,7 +3,7 @@ using BattleShips.Models.Board;
 using BattleShips.Models.Ships;
 using BattleShips.Models.ShipConfig;
 
-namespace BattleShips.Models.ShipPlacement
+namespace BattleShips.Services.ShipPlacement
 {
     interface IShipPlacement
     {

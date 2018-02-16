@@ -3,7 +3,7 @@ using System.Linq;
 using BattleShips.Models.Board;
 using BattleShips.Models.Ships;
 using BattleShips.Models.ShipConfig;
-using BattleShips.Models.ShipPlacement;
+using BattleShips.Services.ShipPlacement;
 
 namespace BattleShips.Models.Player
 {

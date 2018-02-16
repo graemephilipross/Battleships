@@ -8,7 +8,7 @@ using BattleShips.Models.GameState;
 using BattleShips.Game;
 using BattleShips.Models.ShipConfig;
 using BattleShips.Models.Board;
-using BattleShips.Models.ShipPlacement;
+using BattleShips.Services.ShipPlacement;
 using BattleShips.Models.Player;
 
 namespace BattleShips.Container
