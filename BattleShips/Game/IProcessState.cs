@@ -1,4 +1,4 @@
-﻿using BattleShips.Models.GameState;
+﻿using BattleShips.Services;
 
 namespace BattleShips.Game
 {

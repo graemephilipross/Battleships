@@ -1,23 +1,30 @@
 ﻿using System;
-using BattleShips.Models.GameState;
-using BattleShips.Output;
+using BattleShips.Game;
 
-namespace BattleShips.Game
+namespace BattleShips.Services
 {
-    class GameManager
+    public enum GameState
+    {
+        Setup,
+        InPlay,
+        Complete,
+        Quit
+    }
+
+    class GameService
     {
         private GameState _state;
-        private readonly GameStateManager _gsm;
+        private readonly Func<GameState, IProcessState> _lookup;
         private readonly IOutput _output;
 
-        public GameManager(GameStateManager gsm, IOutput output)
+        public GameService(Func<GameState, IProcessState> lookup, IOutput output)
         {
             _state = GameState.Setup;
-            _gsm = gsm;
+            _lookup = lookup;
             _output = output;
         }
 
-        public void GameDriver()
+        public void Play()
         {
             if (_state == GameState.Quit)
             {
@@ -26,7 +33,7 @@ namespace BattleShips.Game
 
             try
             {
-                _state = _gsm.Process(_state);
+                _state = _lookup(_state)?.ProcessState() ?? GameState.Quit;
             }
             catch(Exception e)
             {
@@ -36,7 +43,7 @@ namespace BattleShips.Game
             }
             finally
             {
-                GameDriver();
+                Play();
             }
         }
     }

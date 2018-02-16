@@ -1,15 +1,13 @@
-﻿using BattleShips.Models.GameState;
-using BattleShips.Output;
-using BattleShips.Input;
+﻿using BattleShips.Services;
 
 namespace BattleShips.Game
 {
-    class GameFinished : IProcessState
+    class Complete : IProcessState
     {
         private readonly IOutput _output;
         private readonly IInput _input;
 
-        public GameFinished(IOutput output, IInput input)
+        public Complete(IOutput output, IInput input)
         {
             _output = output;
             _input = input;

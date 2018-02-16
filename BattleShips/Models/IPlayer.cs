@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BattleShips.Models.Ships;
-using BattleShips.Models.Board;
+﻿using BattleShips.Models.Ships;
 
-namespace BattleShips.Models.Player
+namespace BattleShips.Models
 {
     interface IPlayer
     {

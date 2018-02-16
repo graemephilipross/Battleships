@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BattleShips.Models.ShipConfig
+namespace BattleShips.Models
 {
     public enum ShipType
     {

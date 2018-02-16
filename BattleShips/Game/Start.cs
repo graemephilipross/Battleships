@@ -1,15 +1,14 @@
-﻿using BattleShips.Output;
-using BattleShips.Models.GameState;
-using BattleShips.Models.Player;
+﻿using BattleShips.Services;
+using BattleShips.Models;
 
 namespace BattleShips.Game
 {
-    class GameStart : IProcessState
+    class Start : IProcessState
     {
         private readonly IOutput _output;
         private readonly IPlayer _player;
 
-        public GameStart(IOutput output, IPlayer player)
+        public Start(IOutput output, IPlayer player)
         {
             _output = output;
             _player = player;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BattleShips.Models.Board
+namespace BattleShips.Models
 {
     class Board : IBoard
     {

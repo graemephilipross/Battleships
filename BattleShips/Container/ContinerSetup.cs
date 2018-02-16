@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using Autofac;
 
-using BattleShips.Input;
-using BattleShips.Output;
-using BattleShips.Models.GameState;
+using BattleShips.Models;
+using BattleShips.Services;
 using BattleShips.Game;
-using BattleShips.Models.ShipConfig;
-using BattleShips.Models.Board;
-using BattleShips.Services.ShipPlacement;
-using BattleShips.Models.Player;
 
 namespace BattleShips.Container
 {
@@ -51,9 +46,9 @@ namespace BattleShips.Container
             builder.RegisterType<ShipPlacement>().As<IShipPlacement>();
             builder.Register(c => new Player(c.Resolve<IShipPlacement>(), c.Resolve<IBoard>(), shipConfig)).As<IPlayer>().InstancePerLifetimeScope();
 
-            builder.RegisterType<GameStart>().Keyed<IProcessState>(GameState.Setup).InstancePerLifetimeScope();
-            builder.RegisterType<GameInPlay>().Keyed<IProcessState>(GameState.InPlay).InstancePerLifetimeScope();
-            builder.RegisterType<GameFinished>().Keyed<IProcessState>(GameState.Complete).InstancePerLifetimeScope();
+            builder.RegisterType<Start>().Keyed<IProcessState>(GameState.Setup).InstancePerLifetimeScope();
+            builder.RegisterType<InPlay>().Keyed<IProcessState>(GameState.InPlay).InstancePerLifetimeScope();
+            builder.RegisterType<Complete>().Keyed<IProcessState>(GameState.Complete).InstancePerLifetimeScope();
 
             builder.Register<Func<GameState, IProcessState>>(c =>
             {
@@ -61,8 +56,7 @@ namespace BattleShips.Container
                 return state => context.ResolveKeyed<IProcessState>(state);
             });
 
-            builder.RegisterType<GameStateManager>();
-            builder.RegisterType<GameManager>();
+            builder.RegisterType<GameService>();
 
             return builder;
         }

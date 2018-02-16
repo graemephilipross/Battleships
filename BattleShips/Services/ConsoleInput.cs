@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using BattleShips.Models;
 
-namespace BattleShips.Input
+namespace BattleShips.Services
 {
     class ConsoleInput : IInput
     {
@@ -15,13 +16,14 @@ namespace BattleShips.Input
             tryAgainRegex = new Regex(@"^[YyNn]$");
         }
 
-        public int[] ReadUserInGameInput()
+        public CoordDTO ReadUserInGameInput()
         {
             var input = Console.ReadLine();
             var match = inGameRegex.Match(input);
             if (match.Success)
             {
-                return input.Split(',').Select(int.Parse).ToArray();
+                var coords = input.Split(',').Select(int.Parse).ToArray();
+                return new CoordDTO(coords[0], coords[1]);
             }
             throw new ArgumentException("Invalid coordinate");
         }

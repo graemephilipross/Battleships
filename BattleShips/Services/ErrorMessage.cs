@@ -1,4 +1,4 @@
-﻿namespace BattleShips.Output
+﻿namespace BattleShips.Services
 {
     struct ErrorOutput
     {

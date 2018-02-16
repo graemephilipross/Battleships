@@ -1,4 +1,4 @@
-﻿namespace BattleShips.Models.Coords
+﻿namespace BattleShips.Models
 {
     interface ICoord
     {

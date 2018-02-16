@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BattleShips.Models.Board;
+using BattleShips.Models;
 using BattleShips.Models.Ships;
-using BattleShips.Models.ShipConfig;
-using BattleShips.Services.ShipPlacement;
+using BattleShips.Services;
 
-namespace BattleShips.Models.Player
+namespace BattleShips.Models
 {
     class Player: IPlayer
     {

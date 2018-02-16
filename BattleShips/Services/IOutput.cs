@@ -1,7 +1,7 @@
 ﻿using BattleShips.Models.Ships;
-using BattleShips.Models.Board;
+using BattleShips.Models;
 
-namespace BattleShips.Output
+namespace BattleShips.Services
 {
     interface IOutput
     {

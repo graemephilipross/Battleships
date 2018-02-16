@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using BattleShips.Models.Board;
+using BattleShips.Models;
 using BattleShips.Models.Ships;
-using BattleShips.Models.ShipConfig;
 
-namespace BattleShips.Services.ShipPlacement
+namespace BattleShips.Services
 {
     interface IShipPlacement
     {

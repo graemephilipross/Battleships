@@ -1,4 +1,4 @@
-﻿namespace BattleShips.Models.Board
+﻿namespace BattleShips.Models
 {
     interface IBoard
     {

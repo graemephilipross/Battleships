@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BattleShips.Models.Coords;
 
 namespace BattleShips.Models.Ships
 {
