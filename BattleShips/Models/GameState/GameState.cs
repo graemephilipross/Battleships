@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using BattleShips.Game;
 
 namespace BattleShips.Models.GameState
@@ -15,7 +13,7 @@ namespace BattleShips.Models.GameState
 
     class GameStateManager
     {
-        Func<GameState, IProcessState> _lookup;
+        private Func<GameState, IProcessState> _lookup;
 
         public GameStateManager(Func<GameState, IProcessState> lookup)
         {

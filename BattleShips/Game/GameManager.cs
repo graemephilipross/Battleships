@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using BattleShips.Models.GameState;
 using BattleShips.Output;
 
@@ -21,12 +19,13 @@ namespace BattleShips.Game
 
         public void GameDriver()
         {
+            if (_state == GameState.Quit)
+            {
+                return;
+            }
+
             try
             {
-                if (_state == GameState.Quit)
-                {
-                    return;
-                }
                 _state = _gsm.Process(_state);
             }
             catch(Exception e)

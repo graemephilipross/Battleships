@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BattleShips.Models.Board
 {
@@ -9,7 +7,7 @@ namespace BattleShips.Models.Board
         public int Width { private set; get; }
         public int Height { private set; get; }
 
-        public Board(int width = 2, int height = 2)
+        public Board(int width = 5, int height = 5)
         {
             if (width == 0 || height == 0)
             {

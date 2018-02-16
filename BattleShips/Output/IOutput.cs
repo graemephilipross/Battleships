@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BattleShips.Models.Ships;
+﻿using BattleShips.Models.Ships;
 using BattleShips.Models.Board;
 
 namespace BattleShips.Output

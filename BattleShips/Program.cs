@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using Autofac;
+﻿using Autofac;
 using BattleShips.Container;
 using BattleShips.Game;
 
@@ -11,9 +8,10 @@ namespace BattleShips
     {
         static void Main(string[] args)
         {
-            using (var container = ContinerSetup.CreateContainer().Build())
+            var container = ContinerSetup.CreateContainer().Build();
+            using (var session = container.BeginLifetimeScope())
             {
-                container.Resolve<GameManager>().GameDriver();
+                session.Resolve<GameManager>().GameDriver();
             }
         }
     }

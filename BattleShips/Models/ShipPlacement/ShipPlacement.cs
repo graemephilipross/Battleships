@@ -78,7 +78,7 @@ namespace BattleShips.Models.ShipPlacement
             Func<Direction, IEnumerable<ICoord>> tryCreateShip = null;
             tryCreateShip = (direction) =>
             {
-                for (var i = 0; i <= shipInfo.Size - 2; i++)
+                for (var i = placedCoords.Count; i <= shipInfo.Size - 1; i++)
                 {
                     var canPlace = false;
                     switch (direction)
@@ -111,7 +111,6 @@ namespace BattleShips.Models.ShipPlacement
                         }
 
                         var oppositeDirection = GetOppositeDirection(direction);
-                        placedCoords.RemoveRange(1, placedCoords.Count - 1);
                         x = placedCoords.First().X;
                         y = placedCoords.First().Y;
 
@@ -121,6 +120,7 @@ namespace BattleShips.Models.ShipPlacement
                             break;
                         }
 
+                        placedCoords.RemoveRange(1, placedCoords.Count - 1);
                         tryCreateShip(GetRandomDirection(r, availableDirections));
                         break;
                     }

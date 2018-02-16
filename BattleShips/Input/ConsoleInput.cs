@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -34,7 +32,7 @@ namespace BattleShips.Input
             var match = tryAgainRegex.Match(input);
             if (match.Success)
             {
-                return (input.Equals('Y') || input.Equals('y'));
+                return (input.Equals("Y") || input.Equals("y"));
             }
             throw new ArgumentException("Invalid option. Please try again");
         }

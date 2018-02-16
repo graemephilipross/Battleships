@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Autofac;
 
 using BattleShips.Input;
@@ -20,14 +19,14 @@ namespace BattleShips.Container
         {
             var destroyerInfo = new ShipInfo()
             {
-                Size = 2,
-                Quantity = 1
+                Size = 4,
+                Quantity = 2
             };
 
             var cruiserInfo = new ShipInfo()
             {
-                Size = 2,
-                Quantity = 0
+                Size = 3,
+                Quantity = 2
             };
 
             var shipConfig = new ShipSetup();
@@ -52,9 +51,9 @@ namespace BattleShips.Container
             builder.RegisterType<ShipPlacement>().As<IShipPlacement>();
             builder.Register(c => new Player(c.Resolve<IShipPlacement>(), c.Resolve<IBoard>(), shipConfig)).As<IPlayer>().InstancePerLifetimeScope();
 
-            builder.RegisterType<GameStart>().Keyed<IProcessState>(GameState.Setup);
-            builder.RegisterType<GameInPlay>().Keyed<IProcessState>(GameState.InPlay);
-            builder.RegisterType<GameFinished>().Keyed<IProcessState>(GameState.Complete);
+            builder.RegisterType<GameStart>().Keyed<IProcessState>(GameState.Setup).InstancePerLifetimeScope();
+            builder.RegisterType<GameInPlay>().Keyed<IProcessState>(GameState.InPlay).InstancePerLifetimeScope();
+            builder.RegisterType<GameFinished>().Keyed<IProcessState>(GameState.Complete).InstancePerLifetimeScope();
 
             builder.Register<Func<GameState, IProcessState>>(c =>
             {

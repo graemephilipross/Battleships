@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BattleShips.Output
+﻿namespace BattleShips.Output
 {
     struct ErrorOutput
     {

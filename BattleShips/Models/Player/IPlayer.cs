@@ -11,5 +11,6 @@ namespace BattleShips.Models.Player
         IShip ShipHasCoord(int x, int y);
         bool AllShipsSunk();
         IBoard Battlefield { get; }
+        void PlaceShips();
     }
 }

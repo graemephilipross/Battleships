@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using BattleShips.Models.Board;
 using BattleShips.Models.Ships;
-using BattleShips.Models.Coords;
 using BattleShips.Models.ShipConfig;
 
 namespace BattleShips.Models.ShipPlacement
